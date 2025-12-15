@@ -1,12 +1,8 @@
-
-// App state (твій, без змін)
-
-// у верхній частині app.js, всередині state
 const state = {
   theme: 'light',
   alarmActive: false,
-  activeCameraId: null,          // <-- додано: камера, на якій згенеровано Alarm
-  nextCamNum: 1, // лічильник для автоіменування Camera1, Camera2, ...
+  activeCameraId: null,
+  nextCamNum: 1,
   cameras: [
     { id: 'kitchen', name: 'Kitchen', status: 'Idle', thumb: 'assets/images/kitchen.png' },
     { id: 'outdoor', name: 'Outdoor', status: 'Suspicious activity', thumb: 'assets/images/outdoor.png' }
@@ -28,16 +24,13 @@ function applyTheme() {
   document.body.dataset.theme = state.theme;
 }
 
-/* ========= Точковий фікс: декодування ентитізів перед вставкою ========= */
 function decodeEntities(htmlString) {
-  // Мінімальний, але надійний спосіб для нашого кейсу
   return htmlString
     .replaceAll('&lt;', '<')
     .replaceAll('&gt;', '>')
     .replaceAll('&amp;', '&');
 }
 
-/* ============================== Router ============================== */
 
 function router() {
   const path = location.hash.slice(1) || '/';
@@ -53,25 +46,20 @@ function router() {
 
   title.textContent = viewTitle;
 
-  // --- NEW: плавний leave старого вигляду ---
   const current = app.firstElementChild;
   if (current) {
     current.classList.add('leaving');
   }
 
   const doSwap = () => {
-    // формуємо новий HTML (вже декодуєш через твій decodeEntities)
     const nextHTML = decodeEntities(viewFn());
-    // створюємо контейнер .view для анімації
     const wrapper = document.createElement('div');
     wrapper.className = 'view entering';
     wrapper.innerHTML = nextHTML;
 
-    // заміна
     app.innerHTML = '';
     app.appendChild(wrapper);
 
-    // тригер enter → entered
     requestAnimationFrame(() => {
       wrapper.classList.remove('entering');
       wrapper.classList.add('entered');
@@ -81,9 +69,8 @@ function router() {
     app.focus();
   };
 
-  // якщо був current — дочекайся кінця переходу або таймаут
   if (current) {
-    const timeout = setTimeout(doSwap, 220); // фолбек
+    const timeout = setTimeout(doSwap, 220);
     current.addEventListener('transitionend', () => { clearTimeout(timeout); doSwap(); }, { once: true });
   } else {
     doSwap();
@@ -91,7 +78,6 @@ function router() {
 }
 ``
 
-/* ========= Точковий фікс: розірваний if виправлено ========= */
 function updateTabs(path) {
   document.querySelectorAll('.topnav .tab').forEach(a => {
     const href = a.getAttribute('href').replace('#','');
@@ -103,16 +89,12 @@ if (href === path || (path.startsWith('/camera/') && href === '/')) {
   });
 }
 
-/* ============================== Views ============================== */
 
 function viewDashboard() {
-  // 1) Сортуємо: обрані (isFavorite) — на початок
   const sortedCameras = [...state.cameras].sort((a, b) => {
     if (!!a.isFavorite === !!b.isFavorite) return 0;
-    return a.isFavorite ? -1 : 1; // true перед false
+    return a.isFavorite ? -1 : 1;
   });
-
-  // 2) Рендер карток камер
   const cards = sortedCameras.map(c => `
     &lt;article class="card" aria-label="Camera ${c.name}"&gt;
     
@@ -139,8 +121,6 @@ function viewDashboard() {
       &lt;/div&gt;
     &lt;/article&gt;
   `).join('');
-
-  // 3) Тільки Today (як ми вже фіксили)
   const notifs = state.notifications
     .filter(n => (n.ts || '').toLowerCase() === 'today')
     .slice(0, 2)
@@ -148,7 +128,6 @@ function viewDashboard() {
       &lt;div class="list-item"&gt;${n.ts}: ${n.t}&lt;/div&gt;
     `).join('');
 
-  // 4) Кнопка "Add Camera" — ПІД картками
   const addButtonSection = `
     &lt;section aria-label="Add camera" style="margin-top:12px"&gt;
       &lt;button class="btn btn-primary" onclick="addCameraAuto()"&gt;Add Camera&lt;/button&gt;
@@ -172,14 +151,10 @@ function viewDashboard() {
 function viewCamera(id) {
   const cam = state.cameras.find(c => c.id === id);
   if (!cam) return '<p>Camera not found</p>';
-
-  // Підписка на Esc коли ми у viewCamera
   setTimeout(() => {
     window.removeEventListener('keydown', __cameraEscHandler, false);
     window.addEventListener('keydown', __cameraEscHandler, false);
   });
-
-  // Допоміжні інлайнові SVG-іконки (можна винести в окремі функції/спрайт)
   const icons = {
     back: '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>',
     left: '<svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>',
@@ -408,8 +383,6 @@ function viewSettings() {
   `;
 }
 
-
-/* ============================== Helpers ============================== */
 function filterSettings(query) {
   query = (query || '').toLowerCase();
   document.querySelectorAll('fieldset').forEach(fs => {
@@ -428,7 +401,6 @@ function renderNotFound(){ app.innerHTML = '<p>Not found</p>'; }
 window.addEventListener('hashchange', router);
 window.addEventListener('load', () => { applyTheme(); router(); });
 
-/* ============================== Actions ============================== */
 function triggerAlarm() {
   state.alarmActive = true;
   state.activeCameraId = state.cameras.find(c =>
@@ -441,11 +413,10 @@ function confirmActivity(){ state.alarmActive = false; alert('Activity confirmed
 function cancelAlarm(){ state.alarmActive = false; location.hash = '#/'; }
 function simulateActivity(){ state.alarmActive = true; location.hash = '#/activity'; }
 
-/* === Add Camera / Favorite (мінімум для сценарію) === */
 function addCamera(name, thumb, status = 'Idle') {
   const newId = 'cam' + (state.cameras.length + 1);
   state.cameras.push({ id: newId, name, status, thumb, isFavorite: false });
-  router(); // перерендерити Home
+  router();
 }
 
 
@@ -518,8 +489,6 @@ function addCameraAuto() {
  addCamera(name, thumb, 'Idle');
 }
 
-
-// Універсальне "назад": якщо є історія — йдемо на попередню сторінку, інакше — на головну
 function goBack() {
   if (history.length > 1) {
     history.back();
@@ -528,7 +497,6 @@ function goBack() {
    }
 }
 
-/* === Rename / Delete Camera === */
 function renameCamera(id) {
   const cam = state.cameras.find(c => c.id === id);
   if (!cam) return;
@@ -536,7 +504,7 @@ function renameCamera(id) {
   const current = cam.name || '';
   const next = prompt('Enter new camera name:', current);
 
-  if (next === null) return; // скасовано
+  if (next === null) return;
   const trimmed = (next + '').trim();
   if (!trimmed) {
     alert('Name cannot be empty');
@@ -544,7 +512,7 @@ function renameCamera(id) {
   }
 
   cam.name = trimmed;
-  router(); // перерендер
+  router();
 }
 
 function deleteCamera(id) {
@@ -554,14 +522,12 @@ function deleteCamera(id) {
   const ok = confirm(`Delete camera "${cam.name}"? This action cannot be undone.`);
   if (!ok) return;
 
-  // Видаляємо
   state.cameras = state.cameras.filter(c => c.id !== id);
 
-  // Якщо ми були на сторінці цієї камери — повертаємо на головну
   const path = location.hash.slice(1);
   if (path.startsWith('/camera/') && path.split('/')[2] === id) {
     location.hash = '#/';
-    return; // router спрацює через hashchange
+    return;
   }
 
   router();
@@ -578,4 +544,5 @@ function showToast(message) {
     toast.classList.remove('show');
   }, 3000);
 }
+
 
