@@ -1,0 +1,10 @@
+
+body[data-theme="dark"] {
+  --bg: #0b0f14;
+  --fg: #e5e7eb;
+  --muted: #94a3b8;
+  background: var(--bg); color: var(--fg);
+}
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .list-item { background: #0f172a; border-color: #1f2a44; }
+body[data-theme="dark"] .topnav { background: #0b1220; border-color: #1f2a44; }

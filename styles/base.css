@@ -1,0 +1,424 @@
+:root {
+  /* Brand */
+  --brand-600: #16a34a;
+  --brand-700: #0f8a3a;
+
+  /* Light theme */
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --fg: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+
+  /* States */
+  --danger: #ef4444;
+  --ok: #22c55e;
+  --focus: #3b82f6;
+
+  --radius: 14px;
+  --shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+
+body[data-theme="dark"] {
+  --bg: #0b1220;
+  --surface: #111827;
+  --fg: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #1f2937;
+
+  --shadow: 0 6px 20px rgba(0,0,0,.4);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Open Sans", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  color: inherit;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ================= Cards ================= */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: transform .16s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  padding: .75rem 1rem;
+  background: var(--bg); /* ✅ було хардкод */
+  font-weight: 600;
+}
+
+.card-body {
+  padding: .75rem 1rem;
+}
+
+/* ================= Camera ================= */
+
+.camera-thumb {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: .5rem;
+}
+
+.camera-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .5rem;
+}
+
+/* ================= Buttons ================= */
+
+.btn {
+  padding: .6rem .9rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .12s ease, box-shadow .16s ease,
+              background-color .18s ease, color .18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-primary {
+  background: var(--brand-600);
+  color: var(--surface);
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--fg);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: var(--surface);
+}
+
+.btn-ok {
+  background: var(--ok);
+  color: var(--surface);
+}
+
+/* ================= Lists ================= */
+
+.list {
+  display: grid;
+  gap: .5rem;
+}
+
+.list-item {
+  padding: .75rem;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* ================= Settings ================= */
+
+.settings-search {
+  width: 100%;
+  padding: .6rem .75rem;
+  margin-bottom: .75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg);
+  font-size: .95rem;
+}
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .75rem;
+}
+
+legend {
+  padding: 0 .4rem;
+  font-weight: 600;
+}
+
+/* ================= Switch ================= */
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: var(--border);
+  border-radius: 999px;
+  transition: background-color .25s ease;
+  cursor: pointer;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 2px;
+  top: 2px;
+  background-color: var(--surface); /* ✅ було white */
+  border-radius: 50%;
+  transition: transform .25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+.switch input:checked + .slider {
+  background-color: var(--brand-600);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+.switch input:focus-visible + .slider {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ================= Toast ================= */
+
+.toast {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--fg);
+  color: var(--bg);
+  padding: .6rem 1rem;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s, transform .3s;
+  z-index: 1000;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* ================= Notifications ================= */
+
+.notif-group {
+  margin-bottom: 1.25rem;
+}
+
+.notif-title {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 .5rem .25rem;
+  text-transform: uppercase;
+}
+
+.notif-list {
+  display: grid;
+  gap: .5rem;
+}
+
+.notification-item {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: .75rem .9rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  font-size: .95rem;
+}
+
+
+/* ================= Inputs (світла + темна через змінні) ================= */
+
+/* Глобально для керованих полів */
+input,
+textarea,
+select {
+  box-sizing: border-box;
+  display: block;     /* щоб уникати inline-особливостей у вузьких колонках */
+  max-width: 100%;    /* захист від переповнення всередині гріду/флексу */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+textarea,
+select {
+  width: 100%;
+  padding: .5rem .6rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg);
+  font-size: .95rem;
+  outline: none; /* ми керуємо фокусом нижче */
+}
+
+/* Фокус — єдиний акцентний стиль */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent);
+}
+
+/* Плейсхолдери */
+::placeholder {
+  color: var(--muted);
+  opacity: 1; /* для однакового вигляду в Safari/Firefox */
+}
+
+/* Disabled / read-only */
+input[disabled],
+textarea[disabled],
+select[disabled],
+input[readonly],
+textarea[readonly] {
+  background: color-mix(in srgb, var(--surface) 85%, var(--border));
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Помилка / успішний стан — якщо додаєш класи на контейнер або сам інпут */
+.input--error,
+input.input--error {
+  border-color: var(--danger);
+}
+.input--ok,
+input.input--ok {
+  border-color: var(--ok);
+}
+
+
+/* Хедер: заголовок по центру, favorite справа */
+.camera-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: .5rem;
+}
+.camera-title {
+  font-weight: 600;
+}
+
+/* Основний лейаут для камери */
+.camera-layout {
+  display: grid;
+  gap: .75rem;
+  justify-items: start; /* мобільно/малі екрани — ліворуч */
+}
+
+/* На широких екранах — все по центру */
+@media (min-width: 1024px) {
+  .camera-layout {
+    justify-items: center; /* центр по горизонталі для всіх елементів */
+    text-align: center;    /* статус по центру */
+  }
+  .camera-ptz,
+  .camera-main {
+    justify-content: center;
+  }
+}
+
+/* Прев'ю камери */
+.camera-thumb {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: .5rem;
+  border: 1px solid var(--border);
+}
+.camera-thumb img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Групи кнопок */
+.camera-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .25rem;
+}
+
+/* Стан фавориту */
+.btn-fav {
+  padding: .4rem .5rem;
+  border-radius: 10px;
+}
+.btn-fav.is-on {
+  background: var(--brand-600);
+  color: var(--surface);
+}
+.btn .btn-text {
+  margin-left: .35rem;
+}
+
+/* Кнопки з іконками: іконка успадковує currentColor */
+.btn svg {
+  display: inline-block;
+  vertical-align: middle;
+}
