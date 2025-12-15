@@ -1,5 +1,4 @@
 :root {
-  /* Brand */
   --brand-600: #16a34a;
   --brand-700: #0f8a3a;
 
@@ -10,7 +9,6 @@
   --muted: #6b7280;
   --border: #e5e7eb;
 
-  /* States */
   --danger: #ef4444;
   --ok: #22c55e;
   --focus: #3b82f6;
@@ -60,8 +58,6 @@ button {
   color: var(--muted);
 }
 
-/* ================= Cards ================= */
-
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -76,15 +72,13 @@ button {
 
 .card-header {
   padding: .75rem 1rem;
-  background: var(--bg); /* ✅ було хардкод */
+  background: var(--bg);
   font-weight: 600;
 }
 
 .card-body {
   padding: .75rem 1rem;
 }
-
-/* ================= Camera ================= */
 
 .camera-thumb {
   border-radius: 10px;
@@ -98,8 +92,6 @@ button {
   gap: .5rem;
   margin-top: .5rem;
 }
-
-/* ================= Buttons ================= */
 
 .btn {
   padding: .6rem .9rem;
@@ -141,8 +133,6 @@ button {
   color: var(--surface);
 }
 
-/* ================= Lists ================= */
-
 .list {
   display: grid;
   gap: .5rem;
@@ -154,8 +144,6 @@ button {
   background: var(--surface);
   border: 1px solid var(--border);
 }
-
-/* ================= Settings ================= */
 
 .settings-search {
   width: 100%;
@@ -178,8 +166,6 @@ legend {
   padding: 0 .4rem;
   font-weight: 600;
 }
-
-/* ================= Switch ================= */
 
 .switch-row {
   display: flex;
@@ -217,7 +203,7 @@ legend {
   width: 22px;
   left: 2px;
   top: 2px;
-  background-color: var(--surface); /* ✅ було white */
+  background-color: var(--surface);
   border-radius: 50%;
   transition: transform .25s ease;
   box-shadow: 0 2px 6px rgba(0,0,0,.25);
@@ -235,8 +221,6 @@ legend {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
-
-/* ================= Toast ================= */
 
 .toast {
   position: fixed;
@@ -257,8 +241,6 @@ legend {
 .toast.show {
   opacity: 1;
 }
-
-/* ================= Notifications ================= */
 
 .notif-group {
   margin-bottom: 1.25rem;
@@ -286,16 +268,12 @@ legend {
   font-size: .95rem;
 }
 
-
-/* ================= Inputs (світла + темна через змінні) ================= */
-
-/* Глобально для керованих полів */
 input,
 textarea,
 select {
   box-sizing: border-box;
-  display: block;     /* щоб уникати inline-особливостей у вузьких колонках */
-  max-width: 100%;    /* захист від переповнення всередині гріду/флексу */
+  display: block;  
+  max-width: 100%;
 }
 
 input[type="text"],
@@ -314,10 +292,9 @@ select {
   background: var(--surface);
   color: var(--fg);
   font-size: .95rem;
-  outline: none; /* ми керуємо фокусом нижче */
+  outline: none;
 }
 
-/* Фокус — єдиний акцентний стиль */
 input:focus,
 textarea:focus,
 select:focus {
@@ -325,13 +302,11 @@ select:focus {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent);
 }
 
-/* Плейсхолдери */
 ::placeholder {
   color: var(--muted);
-  opacity: 1; /* для однакового вигляду в Safari/Firefox */
+  opacity: 1;
 }
 
-/* Disabled / read-only */
 input[disabled],
 textarea[disabled],
 select[disabled],
@@ -342,7 +317,6 @@ textarea[readonly] {
   cursor: not-allowed;
 }
 
-/* Помилка / успішний стан — якщо додаєш класи на контейнер або сам інпут */
 .input--error,
 input.input--error {
   border-color: var(--danger);
@@ -353,7 +327,6 @@ input.input--ok {
 }
 
 
-/* Хедер: заголовок по центру, favorite справа */
 .camera-header {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -364,18 +337,16 @@ input.input--ok {
   font-weight: 600;
 }
 
-/* Основний лейаут для камери */
 .camera-layout {
   display: grid;
   gap: .75rem;
-  justify-items: start; /* мобільно/малі екрани — ліворуч */
+  justify-items: start;
 }
 
-/* На широких екранах — все по центру */
 @media (min-width: 1024px) {
   .camera-layout {
-    justify-items: center; /* центр по горизонталі для всіх елементів */
-    text-align: center;    /* статус по центру */
+    justify-items: center;
+    text-align: center;
   }
   .camera-ptz,
   .camera-main {
@@ -383,7 +354,6 @@ input.input--ok {
   }
 }
 
-/* Прев'ю камери */
 .camera-thumb {
   border-radius: 10px;
   overflow: hidden;
@@ -396,7 +366,6 @@ input.input--ok {
   height: auto;
 }
 
-/* Групи кнопок */
 .camera-actions {
   display: flex;
   flex-wrap: wrap;
@@ -404,7 +373,6 @@ input.input--ok {
   margin-top: .25rem;
 }
 
-/* Стан фавориту */
 .btn-fav {
   padding: .4rem .5rem;
   border-radius: 10px;
@@ -417,7 +385,6 @@ input.input--ok {
   margin-left: .35rem;
 }
 
-/* Кнопки з іконками: іконка успадковує currentColor */
 .btn svg {
   display: inline-block;
   vertical-align: middle;
