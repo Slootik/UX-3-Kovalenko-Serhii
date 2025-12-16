@@ -1,6 +1,8 @@
 .appbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   height: 56px;
   display: flex;
   align-items: center;
@@ -15,15 +17,16 @@
   z-index: 1000;
 }
 
-
 .appbar h1 {
   margin: 0;
   font-size: 1.25rem;
 }
 
 .topnav {
-  position: sticky;
+  position: fixed;
   top: 56px;
+  left: 0;
+  right: 0;
   display: flex;
   gap: 4px;
   padding: .5rem;
@@ -31,6 +34,7 @@
   border-bottom: 1px solid var(--border);
   z-index: 900;
 }
+
 
 .topnav .tab {
   flex: 1;
